@@ -1,10 +1,12 @@
 const express = require('express');
+const session = require('express-session');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const mongo = require('mongoose');
 const router = express.Router();
 
+// Model for the mongodb database.
 const userSchema = mongo.Schema({
     email: String,
     username: String,
@@ -12,12 +14,25 @@ const userSchema = mongo.Schema({
     password: String,
 });
 const User = mongo.model("User", userSchema);
-mongo.connect('mongodb://localhost:27017/helium', {useNewUrlParser: true});
-router.use(cors());
+
+const sessionSchema = mongo.Schema({
+   sessionID: String,
+   userID: String,
+    userName: String,
+});
+const Session = mongo.model("Session",sessionSchema);
+
+// Connecting to mongodb server.
+const promise = mongo.connect('mongodb://localhost:27017/helium', {useNewUrlParser: true});
+console.log(promise);
+
+// Cross Origin Resource Sharing filter to communicate between angular cli and node js.
+router.use(cors({credential: true}));
 router.use(cookieParser());
 router.use(bodyParser.json());
-/* GET home page. */
+router.use(session({secret: "Your secret key"}));
 
+// Route for post request of login form.
 router.post('/login', function (req, res) {
     const userInfo = req.body;
     if (!userInfo.username || !userInfo.password) {
@@ -29,15 +44,43 @@ router.post('/login', function (req, res) {
             if (user.length <= 0) {
                 res.json({status: false, msg: 'Wrong Username or Password'});
                 res.end();
-            } else{
-                res.json({status: true, msg: 'Successfully logged in', user: user});
-                res.end();
+            } else {
+                console.log(user);
+                if (user[0].password.match(userInfo.password)) {
+                    console.log(user[0]);
+                    var date = new Date();
+                    var t = date.getMilliseconds();
+                    var sessID = t.toString() + user[0]._id;
+                    const newSession = new Session({
+                       sessionID: sessID,
+                       userID: user[0]._id,
+                       userName: user[0].username
+                    });
+                    newSession.save(function (err,data){
+                        if(err){
+                            console.log(err);
+                        } else {
+                            console.log(data);
+                        }
+                    });
+                    res.json({status: true, msg: 'Successfully logged in', sessionID: sessID});
+                    res.end();
+                } else {
+                    res.json({status: false, msg: 'Wrong Username or Password'});
+                    res.end();
+                }
             }
         });
     }
 });
 //User.collection.drop();
 
+// get the user session if exists
+router.get('/getSession', function (req, res) {
+
+});
+
+// router for post request of sign up page
 router.post('/postuser', function (req, res) {
     const userInfo = req.body;
     if (!userInfo.email || !userInfo.username || !userInfo.dob || !userInfo.password) {
@@ -73,9 +116,10 @@ router.post('/postuser', function (req, res) {
                 res.end();
             }
         });
-        console.log('c2' + count);
-
     }
 });
 
 module.exports = router;
+
+
+
