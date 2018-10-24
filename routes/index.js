@@ -24,7 +24,7 @@ const Session = mongo.model("Session",sessionSchema);
 
 // Connecting to mongodb server.
 const promise = mongo.connect('mongodb://localhost:27017/helium', {useNewUrlParser: true});
-console.log(promise);
+//console.log(promise);
 
 // Cross Origin Resource Sharing filter to communicate between angular cli and node js.
 router.use(cors({credential: true}));
@@ -76,8 +76,27 @@ router.post('/login', function (req, res) {
 //User.collection.drop();
 
 // get the user session if exists
-router.get('/getSession', function (req, res) {
-
+router.post('/getSession', function (req, res) {
+    const sessionID = req.body;
+    if(sessionID.sessionID){
+        Session.find({sessionID: sessionID.sessionID}, function (err, session) {
+            if(err) {
+                console.log('error' + err);
+                res.end();
+            } else{
+                if(session.length > 0)
+                {
+                    res.json({status: true, session: session[0]});
+                } else {
+                    res.json({status: false});
+                }
+                res.end();
+            }
+        });
+    } else{
+        res.json({status: false});
+        res.end();
+    }
 });
 
 // router for post request of sign up page
