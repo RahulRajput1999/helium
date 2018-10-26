@@ -16,12 +16,25 @@ const userSchema = mongo.Schema({
 const User = mongo.model("User", userSchema);
 
 const sessionSchema = mongo.Schema({
-   sessionID: String,
-   userID: String,
+    sessionID: String,
+    userID: String,
     userName: String,
 });
-const Session = mongo.model("Session",sessionSchema);
-
+const Session = mongo.model("Session", sessionSchema);
+const topicSchema = mongo.Schema({
+    name: String,
+});
+const Topic = mongo.model("Topic", topicSchema);
+const questionSchema = mongo.Schema({
+    question: String,
+    description: String,
+    topic_ids: [String],
+    date: String,
+    user_id: String,
+    up_votes: Number,
+    down_votes: Number,
+});
+const  Question = mongo.model("Question", questionSchema);
 // Connecting to mongodb server.
 const promise = mongo.connect('mongodb://localhost:27017/helium', {useNewUrlParser: true});
 //console.log(promise);
@@ -52,12 +65,12 @@ router.post('/login', function (req, res) {
                     var t = date.getMilliseconds();
                     var sessID = t.toString() + user[0]._id;
                     const newSession = new Session({
-                       sessionID: sessID,
-                       userID: user[0]._id,
-                       userName: user[0].username
+                        sessionID: sessID,
+                        userID: user[0]._id,
+                        userName: user[0].username
                     });
-                    newSession.save(function (err,data){
-                        if(err){
+                    newSession.save(function (err, data) {
+                        if (err) {
                             console.log(err);
                         } else {
                             console.log(data);
@@ -74,18 +87,17 @@ router.post('/login', function (req, res) {
     }
 });
 //User.collection.drop();
-
+//Session.collection.drop();
 // get the user session if exists
 router.post('/getSession', function (req, res) {
     const sessionID = req.body;
-    if(sessionID.sessionID){
+    if (sessionID.sessionID) {
         Session.find({sessionID: sessionID.sessionID}, function (err, session) {
-            if(err) {
+            if (err) {
                 console.log('error' + err);
                 res.end();
-            } else{
-                if(session.length > 0)
-                {
+            } else {
+                if (session.length > 0) {
                     res.json({status: true, session: session[0]});
                 } else {
                     res.json({status: false});
@@ -93,12 +105,29 @@ router.post('/getSession', function (req, res) {
                 res.end();
             }
         });
-    } else{
+    } else {
         res.json({status: false});
         res.end();
     }
 });
 
+router.post('/destroySession', function (req, res) {
+    const sessionID = req.body;
+    if (sessionID.sessionID) {
+        Session.remove({sessionID: sessionID.sessionID}, function (err, data) {
+            if (err) {
+                console.log(err);
+                res.end();
+            } else {
+                res.json({status: true});
+                res.end();
+            }
+        });
+    } else {
+        res.json({status: false});
+        res.end();
+    }
+});
 // router for post request of sign up page
 router.post('/postuser', function (req, res) {
     const userInfo = req.body;
@@ -139,6 +168,3 @@ router.post('/postuser', function (req, res) {
 });
 
 module.exports = router;
-
-
-
