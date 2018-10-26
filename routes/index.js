@@ -111,6 +111,29 @@ router.post('/getSession', function (req, res) {
     }
 });
 
+router.post('/getUser', function (req, res) {
+    const sessionID = req.body.sessionID;
+    if(sessionID) {
+        Session.find({sessionID: sessionID}, function (err, data) {
+            if (err) {
+                console.log(err);
+            } else {
+                let session = data[0];
+                if(session) {
+                    User.find({_id: session.userID}, function (err,data) {
+                        if(err) {
+                            console.log(err);
+                        } else {
+                            res.json({status: true, user: data[0]});
+                            res.end();
+                        }
+                    })
+                }
+            }
+        });
+    }
+});
+
 router.post('/destroySession', function (req, res) {
     const sessionID = req.body;
     if (sessionID.sessionID) {
