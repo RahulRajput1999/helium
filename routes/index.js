@@ -109,7 +109,7 @@ router.post('/getSession', function (req, res) {
         res.end();
     }
 });
-
+// Get the whole user object according to session data.
 router.post('/getUser', function (req, res) {
     const sessionID = req.body.sessionID;
     if (sessionID) {
@@ -133,6 +133,7 @@ router.post('/getUser', function (req, res) {
     }
 });
 
+// log-off the user from the server, remove the session from database.
 router.post('/destroySession', function (req, res) {
     const sessionID = req.body;
     if (sessionID.sessionID) {
@@ -150,6 +151,7 @@ router.post('/destroySession', function (req, res) {
         res.end();
     }
 });
+
 // router for post request of sign up page
 router.post('/postuser', function (req, res) {
     const userInfo = req.body;
@@ -189,6 +191,7 @@ router.post('/postuser', function (req, res) {
     }
 });
 //Question.collection.drop();
+//POst request route for posting the question.
 router.post('/postQuestion', function (req, res) {
     const q = req.body;
     console.log(q);
@@ -219,30 +222,28 @@ router.post('/postQuestion', function (req, res) {
     });
 
 });
+
+// To get all the questions.
 router.get('/getQuestions', function (req, res) {
-    const id = req.body.id;
-    if (id) {
-        res.json({status: true, tag: 'id'});
-        res.end();
-    } else {
-        Question.find({}, function (err, data) {
-            if (err) {
-                console.log(err);
-            } else {
-                res.json({questions: data});
-                res.end();
-            }
-        });
-    }
+    Question.find({}, function (err, data) {
+        if (err) {
+            console.log(err);
+        } else {
+            res.json({questions: data});
+            res.end();
+        }
+    });
 });
+
+// To get questions according to their topic tags.
 router.post('/getQuestions', function (req, res) {
     const tag = req.body.tag;
     if (tag) {
-        Question.find({topic_ids: tag}, function (err,data) {
-            if(err) {
+        Question.find({topic_ids: tag}, function (err, data) {
+            if (err) {
                 console.log(err);
             } else {
-                res.json({status: true, data: data});
+                res.json({status: true, questions: data});
                 res.end();
             }
         });
@@ -252,6 +253,7 @@ router.post('/getQuestions', function (req, res) {
     }
 });
 
+// To get question according one unique id.
 router.post('/getQuestion', function (req, res) {
     const id = req.body.id;
     if (id) {
