@@ -34,7 +34,7 @@ const questionSchema = mongo.Schema({
     up_votes: Number,
     down_votes: Number,
 });
-const  Question = mongo.model("Question", questionSchema);
+const Question = mongo.model("Question", questionSchema);
 // Connecting to mongodb server.
 const promise = mongo.connect('mongodb://localhost:27017/helium', {useNewUrlParser: true});
 //console.log(promise);
@@ -60,7 +60,6 @@ router.post('/login', function (req, res) {
             } else {
                 console.log(user);
                 if (user[0].password.match(userInfo.password)) {
-                    console.log(user[0]);
                     var date = new Date();
                     var t = date.getMilliseconds();
                     var sessID = t.toString() + user[0]._id;
@@ -113,15 +112,15 @@ router.post('/getSession', function (req, res) {
 
 router.post('/getUser', function (req, res) {
     const sessionID = req.body.sessionID;
-    if(sessionID) {
+    if (sessionID) {
         Session.find({sessionID: sessionID}, function (err, data) {
             if (err) {
                 console.log(err);
             } else {
                 let session = data[0];
-                if(session) {
-                    User.find({_id: session.userID}, function (err,data) {
-                        if(err) {
+                if (session) {
+                    User.find({_id: session.userID}, function (err, data) {
+                        if (err) {
                             console.log(err);
                         } else {
                             res.json({status: true, user: data[0]});
@@ -187,6 +186,88 @@ router.post('/postuser', function (req, res) {
                 res.end();
             }
         });
+    }
+});
+//Question.collection.drop();
+router.post('/postQuestion', function (req, res) {
+    const q = req.body;
+    console.log(q);
+    let i;
+    let topics = [];
+    for (i = 0; i < q.tags.length; i++) {
+        topics[i] = q.tags[i].name;
+    }
+    const d = new Date();
+    console.log(topics);
+    let userID;
+    Session.findOne({sessionID: q.sessionID}).exec(function (err, data) {
+        userID = data.userID;
+        const newQue = new Question({
+            question: q.question,
+            description: q.description,
+            topic_ids: topics,
+            date: d.toString(),
+            user_id: userID,
+            up_votes: 0,
+            down_votes: 0,
+        });
+        newQue.save();
+    });
+    Question.find({}, function (err, data) {
+        res.json({data: data});
+        res.end();
+    });
+
+});
+router.get('/getQuestions', function (req, res) {
+    const id = req.body.id;
+    if (id) {
+        res.json({status: true, tag: 'id'});
+        res.end();
+    } else {
+        Question.find({}, function (err, data) {
+            if (err) {
+                console.log(err);
+            } else {
+                res.json({questions: data});
+                res.end();
+            }
+        });
+    }
+});
+router.post('/getQuestions', function (req, res) {
+    const tag = req.body.tag;
+    if (tag) {
+        Question.find({topic_ids: tag}, function (err,data) {
+            if(err) {
+                console.log(err);
+            } else {
+                res.json({status: true, data: data});
+                res.end();
+            }
+        });
+    } else {
+        res.json({status: false});
+        res.end();
+    }
+});
+
+router.post('/getQuestion', function (req, res) {
+    const id = req.body.id;
+    if (id) {
+        Question.find({_id: id}, function (err, data) {
+            if (err) {
+                console.log(err);
+            } else {
+                if (data.length > 0) {
+                    res.json({status: true, question: data[0]});
+                    res.end();
+                } else {
+                    res.json({status: false});
+                    res.end();
+                }
+            }
+        })
     }
 });
 
