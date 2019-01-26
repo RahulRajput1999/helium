@@ -36,7 +36,7 @@ const questionSchema = mongo.Schema({
 });
 const Question = mongo.model("Question", questionSchema);
 // Connecting to mongodb server.
-const promise = mongo.connect('mongodb://localhost:27017/helium', {useNewUrlParser: true});
+const promise = mongo.connect('mongodb://admin:admin123@ds151523.mlab.com:51523/helium', {useNewUrlParser: true});
 //console.log(promise);
 
 // Cross Origin Resource Sharing filter to communicate between angular cli and node js.
@@ -46,6 +46,10 @@ router.use(bodyParser.json());
 router.use(session({secret: "Your secret key"}));
 
 // Route for post request of login form.
+router.get('/test', function (req,res) {
+		res.write('Test succeded!');
+		res.end();
+	})
 router.post('/login', function (req, res) {
     const userInfo = req.body;
     if (!userInfo.username || !userInfo.password) {

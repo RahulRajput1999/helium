@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="2d4f2cd0-026f-4336-8880-599fa8e7e76f" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/index.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -92,14 +93,30 @@
         </counts>
       </usages-collector>
     </session>
+    <session id="-735386018">
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.closed" value="4" />
+          <entry key="project.open.time.0" value="2" />
+          <entry key="project.open.time.2" value="1" />
+          <entry key="project.open.time.20" value="1" />
+          <entry key="project.open.time.21" value="1" />
+          <entry key="project.opened" value="5" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.vcs.git.usages" />
+      <usages-collector id="statistics.js.language.service.starts" />
+      <usages-collector id="statistics.file.types.open" />
+      <usages-collector id="statistics.file.types.edit" />
+    </session>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/routes/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="72">
-              <caret line="255" column="43" selection-start-line="255" selection-start-column="43" selection-end-line="255" selection-end-column="43" />
+            <state relative-caret-position="184">
+              <caret line="38" column="86" selection-start-line="38" selection-start-column="86" selection-end-line="38" selection-end-column="86" />
             </state>
           </provider>
         </entry>
@@ -163,6 +180,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -184,7 +202,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -231,6 +248,11 @@
       <workItem from="1540138107955" duration="5089000" />
       <workItem from="1540532282961" duration="17745000" />
       <workItem from="1540588566028" duration="682000" />
+      <workItem from="1541335760848" duration="107000" />
+      <workItem from="1541337063552" duration="915000" />
+      <workItem from="1541394485847" duration="648000" />
+      <workItem from="1541421826415" duration="10000" />
+      <workItem from="1548478375982" duration="517000" />
     </task>
     <task id="LOCAL-00001" summary="first commit og helium">
       <created>1539966314580</created>
@@ -278,19 +300,18 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="61090000" />
+    <option name="totallyTimeSpent" value="63287000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="878" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.22442244" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.22405817" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="npm" order="2" side_tool="true" />
       <window_info id="Favorites" order="3" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.26938775" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.26812586" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -347,8 +368,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/routes/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="255" column="43" selection-start-line="255" selection-start-column="43" selection-end-line="255" selection-end-column="43" />
+        <state relative-caret-position="184">
+          <caret line="38" column="86" selection-start-line="38" selection-start-column="86" selection-end-line="38" selection-end-column="86" />
         </state>
       </provider>
     </entry>
